@@ -62,6 +62,51 @@
       color: #51537F;
       text-decoration: underline;
     }
+
+    /* Full-bleed strip of recent @pearblossom.app posts, drifting slowly
+       left-to-right on an infinite loop. Breaks out of the centered,
+       padded body via the negative-margin 100vw trick so it can span the
+       full viewport width regardless of how narrow the body's own content
+       column is. */
+    .ig-strip {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-top: 56px;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+      mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    }
+
+    .ig-track {
+      display: flex;
+      width: max-content;
+      gap: 12px;
+      padding: 0 12px;
+      animation: ig-scroll 30s linear infinite;
+    }
+
+    .ig-track img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border: 1.5px solid #00092B;
+      flex-shrink: 0;
+    }
+
+    @keyframes ig-scroll {
+      from { transform: translateX(-50%); }
+      to { transform: translateX(0); }
+    }
+
+    .ig-caption {
+      margin-top: 16px;
+      font-size: 13px;
+    }
+
+    .ig-caption a {
+      color: #51537F;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -70,6 +115,35 @@
   <h1>Pearblossom</h1>
   <p>A new way to compose photos. Coming soon.</p>
   <div class="coming-soon">Available on the App Store</div>
+
+  <div class="ig-strip">
+    <div class="ig-track">
+      <!-- Recent compositions from @pearblossom.app, oldest to newest.
+           The full list is duplicated once immediately below so the
+           `ig-scroll` keyframes (0% at -50%, 100% at 0) loop seamlessly —
+           halfway through the animation the track is back to looking
+           exactly like its start. Duplicate BOTH copies in lockstep
+           whenever a post is added or removed, and keep them in the same
+           order in each half.
+
+           `loading="eager"` (not the default-ish "lazy") on every image
+           here — the animation starts with the track shifted so the first
+           (real) copy sits just off left of the viewport, and a lazy image
+           only fetches once it's about to scroll into view. That made
+           images visibly pop in one at a time as the loop first played,
+           instead of all being ready before the animation starts. -->
+      <img src="./instagram/ig-2026-07-14.jpg" alt="Pearblossom composition posted July 14, 2026" loading="eager" />
+      <img src="./instagram/ig-2026-07-20.jpg" alt="Pearblossom composition posted July 20, 2026" loading="eager" />
+      <img src="./instagram/ig-2026-07-23.jpg" alt="Pearblossom composition posted July 23, 2026" loading="eager" />
+      <img src="./instagram/ig-2026-07-28.jpg" alt="Pearblossom composition posted July 28, 2026" loading="eager" />
+
+      <img src="./instagram/ig-2026-07-14.jpg" alt="" aria-hidden="true" loading="eager" />
+      <img src="./instagram/ig-2026-07-20.jpg" alt="" aria-hidden="true" loading="eager" />
+      <img src="./instagram/ig-2026-07-23.jpg" alt="" aria-hidden="true" loading="eager" />
+      <img src="./instagram/ig-2026-07-28.jpg" alt="" aria-hidden="true" loading="eager" />
+    </div>
+  </div>
+  <p class="ig-caption"><a href="https://www.instagram.com/pearblossom.app/">Follow @pearblossom.app on Instagram</a></p>
 
   <footer>
     <a href="/pearblossom-site/privacy/">Privacy Policy</a>
